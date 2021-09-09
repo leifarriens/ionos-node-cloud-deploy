@@ -11,8 +11,7 @@
     "dev": "tsc -w",
     "build": "tsc",
     "lint": "eslint src/**/*.ts",
-    "format": "prettier --write src/**/*.ts",
-    "release": "np --no-tests --no-2fa --no-yarn"
+    "format": "prettier --write src/**/*.ts"
   },
   "keywords": [
     "ionos",

@@ -1,0 +1,6 @@
+{
+  "cleanup": true,
+  "preview": true,
+  "tests": false,
+  "yarn": true
+}
