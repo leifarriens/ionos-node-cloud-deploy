@@ -1,6 +1,6 @@
 {
   "cleanup": true,
-  "preview": true,
+  "preview": false,
   "tests": false,
   "yarn": true
 }
