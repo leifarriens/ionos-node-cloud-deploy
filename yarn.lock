@@ -173,11 +173,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/parameter@^3.6.2":
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/@types/parameter/-/parameter-3.6.2.tgz#9fd6c69204140482076eceaf956ddeabc6f6c2a6"
-  integrity sha512-/v5S37HTjjpxqp0v8WB2G7WVD3yw0Pe1VzsjEKnoUfZqVEad4pM0NJYCPcy2ZiZICsZtnRYXsIDG0pHdoBYiCg==
-
 "@types/parse-json@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
@@ -2335,11 +2330,6 @@ package-json@^6.3.0:
     registry-auth-token "^4.0.0"
     registry-url "^5.0.0"
     semver "^6.2.0"
-
-parameter@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/parameter/-/parameter-3.6.0.tgz#bcf81327e98e433c72c134830ec84d15e81b963d"
-  integrity sha512-KtXBPFX92SNh6E3dTRJ8fT0Dw23XPyAmp3YGZwhupRUsxl0EbtV1StuWSt76MsQdh6r4azZogsc+QTxYLBDziQ==
 
 parent-module@^1.0.0:
   version "1.0.1"
