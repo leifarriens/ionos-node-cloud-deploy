@@ -1,5 +1,5 @@
-import { FtpDeployConfig } from './types';
-import { uploadFtp } from './utils';
+import { DeployConfig, FtpDeployConfig } from './types';
+import { uploadSftp } from './utils';
 
 interface WebspaceOptions {
   host?: string;
@@ -11,13 +11,13 @@ interface WebspaceOptions {
   exclude?: string[];
 }
 
-const INCLUDE_DEFAULTS = ['*', '**/*', '.*'];
+const INCLUDE_DEFAULTS = ['*', '**/*', '.*']; // includes ALL files, including dot files
 const EXCLUDE_DEFAULTS = [
   'dist/**/*.map',
   'node_modules/**',
   'node_modules/**/.*',
   '.git/**',
-];
+]; // exludes all .map files and every file in .git & node_modules folder
 
 export default class WebspaceDeploy {
   ftpConfig: FtpDeployConfig;
@@ -47,7 +47,7 @@ export default class WebspaceDeploy {
     };
   }
 
-  deploy(options: FtpDeployConfig = {}): void {
-    uploadFtp({ ...this.ftpConfig, ...options });
+  async deploy(options: DeployConfig = {}): Promise<void> {
+    return await uploadSftp({ ...this.ftpConfig, ...options });
   }
 }

@@ -1,6 +1,7 @@
 import FtpDeploy from 'ftp-deploy';
 import ora from 'ora';
 import chalk from 'chalk';
+import { NodeSSH, SSHExecCommandResponse } from 'node-ssh';
 
 import { FtpDeployConfig } from './types';
 
@@ -11,16 +12,16 @@ interface UploadingEvent {
   totalFilesCount: number;
 }
 
-export async function uploadFtp(config: FtpDeployConfig): Promise<void> {
+export async function uploadSftp(config: FtpDeployConfig): Promise<void> {
   const spinner = ora('Uploading files...').start();
 
-  try {
-    ftp.on('uploading', function (data: UploadingEvent) {
-      spinner.text = `Uploaded ${chalk.blue(
-        data.transferredFileCount
-      )} of ${chalk.blue(data.totalFilesCount)} files`;
-    });
+  ftp.on('uploading', function (data: UploadingEvent) {
+    spinner.text = `Uploaded ${chalk.blue(
+      data.transferredFileCount
+    )} of ${chalk.blue(data.totalFilesCount)} files`;
+  });
 
+  try {
     const uploaded = await ftp.deploy(config);
 
     const nOfFolders = uploaded.length;
@@ -40,3 +41,11 @@ export async function uploadFtp(config: FtpDeployConfig): Promise<void> {
     spinner.fail(error.code);
   }
 }
+
+export const execRestart = async (
+  ssh: NodeSSH,
+  dir: string
+): Promise<SSHExecCommandResponse> =>
+  await ssh.execCommand('rm -rf tmp && mkdir tmp && touch tmp/restart.txt', {
+    cwd: dir,
+  });

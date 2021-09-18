@@ -42,15 +42,23 @@ yarn add ionos-node-cloud-deploy
   cloud.deploy();
 ```
 
-| Parameter   | Type       | Description                                         |
-| :---------- | :--------- | :-------------------------------------------------- |
-| `host`      | `string`   | **Required**. Hostname of the cloud server          |
-| `username`  | `string`   | **Required**. SSH username                          |
-| `password`  | `string`   | **Required**. SSH password                          |
-| `localDir`  | `string`   | **Required**. local directory `__dirname + '/dist'` |
-| `remoteDir` | `string`   | remote directory                                    |
-| `include`   | `string[]` | files to include                                    |
-| `exclude`   | `string[]` | files to exclude                                    |
+| Parameter   | Type       | Description                                                                                          |
+| :---------- | :--------- | :--------------------------------------------------------------------------------------------------- |
+| `host`      | `string`   | **Required**. Hostname of the cloud server                                                           |
+| `username`  | `string`   | **Required**. SSH username                                                                           |
+| `password`  | `string`   | **Required**. SSH password                                                                           |
+| `localDir`  | `string`   | **Required**. local directory `__dirname + '/dist'`                                                  |
+| `remoteDir` | `string`   | remote directory - **default**: `'/var/www/'`                                                        |
+| `include`   | `string[]` | files to include - **default**: `['*', '**/*']`                                                      |
+| `exclude`   | `string[]` | files to exclude - **default**: `['dist/**/*.map','node_modules/**','node_modules/**/.*','.git/**']` |
+
+Deploy functions can be executed step by step.
+
+```javascript
+  await cloud.upload();
+  await cloud.install();
+  await cloud.restart();
+```
 
 ### Webspace
 
@@ -68,15 +76,15 @@ const webspace = new Webspace({
 webspace.deploy({ deleteRemote: true });
 ```
 
-| Parameter   | Type       | Description                                         |
-| :---------- | :--------- | :-------------------------------------------------- |
-| `host`      | `string`   | **Required**. Hostname of the cloud server          |
-| `username`  | `string`   | **Required**. SSH username                          |
-| `password`  | `string`   | **Required**. SSH password                          |
-| `localDir`  | `string`   | **Required**. local directory `__dirname + '/dist'` |
-| `remoteDir` | `string`   | remote directory                                    |
-| `include`   | `string[]` | files to include                                    |
-| `exclude`   | `string[]` | files to exclude                                    |
+| Parameter   | Type       | Description                                                                                          |
+| :---------- | :--------- | :--------------------------------------------------------------------------------------------------- |
+| `host`      | `string`   | **Required**. Hostname of the cloud server                                                           |
+| `username`  | `string`   | **Required**. SSH username                                                                           |
+| `password`  | `string`   | **Required**. SSH password                                                                           |
+| `localDir`  | `string`   | **Required**. local directory `__dirname + '/dist'`                                                  |
+| `remoteDir` | `string`   | remote directory - **default**: `'/'`                                                                |
+| `include`   | `string[]` | files to include - **default**: `['*', '**/*', '.*']`                                                |
+| `exclude`   | `string[]` | files to exclude - **default**: `['dist/**/*.map','node_modules/**','node_modules/**/.*','.git/**']` |
   
 ## Authors
 
