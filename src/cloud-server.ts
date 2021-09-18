@@ -1,8 +1,8 @@
 import { NodeSSH, Config } from 'node-ssh';
 import ora from 'ora';
 
-import { FtpDeployConfig } from './types';
-import { uploadFtp } from './utils';
+import { DeployConfig, FtpDeployConfig } from './types';
+import { execRestart, uploadSftp } from './utils';
 
 const ssh = new NodeSSH();
 
@@ -16,13 +16,13 @@ interface CloudServerOptions {
   exclude?: string[];
 }
 
-const INCLUDE_DEFAULTS = ['*', '**/*'];
+const INCLUDE_DEFAULTS = ['*', '**/*']; // includes ALL files, except dot files
 const EXCLUDE_DEFAULTS = [
   'dist/**/*.map',
   'node_modules/**',
   'node_modules/**/.*',
   '.git/**',
-];
+]; // exludes all .map files and every file in .git & node_modules folder
 
 export default class CloudServer {
   remoteDir: string;
@@ -64,15 +64,19 @@ export default class CloudServer {
     };
   }
 
-  private async upload(options: FtpDeployConfig = {}) {
-    uploadFtp({ ...this.ftpConfig, ...options });
-  }
-
   private async sshConnect() {
     await ssh.connect(this.sshConfig);
   }
 
-  private async install() {
+  async upload(options: DeployConfig = {}): Promise<void> {
+    return await uploadSftp({ ...this.ftpConfig, ...options });
+  }
+
+  async install(): Promise<void> {
+    if (!ssh.isConnected()) {
+      await this.sshConnect();
+    }
+
     const spinner = ora('Installing packages...').start();
 
     try {
@@ -84,30 +88,29 @@ export default class CloudServer {
     }
   }
 
-  private async restart() {
+  async restart(): Promise<void> {
+    if (!ssh.isConnected()) {
+      await this.sshConnect();
+    }
+
     const spinner = ora('Restarting the server...').start();
 
     try {
-      await ssh.execCommand(
-        'rm -rf tmp && mkdir tmp && touch tmp/restart.txt',
-        {
-          cwd: this.remoteDir,
-        }
-      );
+      await execRestart(ssh, this.remoteDir);
       spinner.succeed('Server restarted');
     } catch (error) {
       spinner.fail();
     }
   }
 
-  async deploy(options: FtpDeployConfig = {}): Promise<void> {
+  async deploy(options: DeployConfig = {}): Promise<void> {
     try {
       await this.upload(options);
-      await this.sshConnect();
       await this.install();
       await this.restart();
     } catch (error) {
       console.error(error);
     }
+    process.exit();
   }
 }
