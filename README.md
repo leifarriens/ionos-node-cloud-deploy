@@ -78,7 +78,7 @@ webspace.deploy({ deleteRemote: true });
 
 | Parameter   | Type       | Description                                                                                          |
 | :---------- | :--------- | :--------------------------------------------------------------------------------------------------- |
-| `host`      | `string`   | **Required**. Hostname of the cloud server                                                           |
+| `host`      | `string`   | **Required**. Hostname of the webspace                                                               |
 | `username`  | `string`   | **Required**. SSH username                                                                           |
 | `password`  | `string`   | **Required**. SSH password                                                                           |
 | `localDir`  | `string`   | **Required**. local directory `__dirname + '/dist'`                                                  |

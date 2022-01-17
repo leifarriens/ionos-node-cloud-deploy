@@ -13,12 +13,14 @@ interface UploadingEvent {
 }
 
 export async function uploadSftp(config: FtpDeployConfig): Promise<void> {
-  const spinner = ora('Uploading files...').start();
+  const spinner = ora(`Connecting to ${config.host}`).start();
 
   ftp.on('uploading', function (data: UploadingEvent) {
     spinner.text = `Uploaded ${chalk.blue(
       data.transferredFileCount
-    )} of ${chalk.blue(data.totalFilesCount)} files`;
+    )} of ${chalk.blue(data.totalFilesCount)} files to ${config.host} ${
+      config.remoteRoot
+    }`;
   });
 
   try {
